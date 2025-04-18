@@ -22,7 +22,7 @@ output "ecs_cluster_name" {
 
 output "ecs_service_name" {
   description = "Name of the ECS service"
-  value       = module.ecs_service.name
+  value       = module.ecs_service.service_name
 }
 
 # GHCR-ECS-CD Outputs
@@ -85,16 +85,16 @@ output "alias_record_name" {
 # ALB Outputs
 output "alb_dns_name" {
   description = "DNS name of the ALB"
-  value       = module.alb.lb_dns_name
+  value       = module.alb.alb_dns_name
 }
 
 output "alb_zone_id" {
   description = "Zone ID of the ALB"
-  value       = module.alb.lb_zone_id
+  value       = module.alb.alb_zone_id
 }
 
 # SSL Certificate Outputs
 output "certificate_arn" {
   description = "ARN of the SSL certificate"
-  value       = module.ssl_certificate.certificate_arn
+  value       = module.ssl_certificate.acm_certificate_arn
 }

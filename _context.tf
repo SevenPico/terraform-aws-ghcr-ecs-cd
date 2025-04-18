@@ -43,7 +43,7 @@
 # will be null and `module.this.delimiter` will be `-` (hyphen).
 #
 
-module "this" {
+module "context" {
   source  = "SevenPico/context/null"
   version = "2.0.0" # requires Terraform >= 0.13.0
 
