@@ -73,13 +73,13 @@ module "vpc_subnets" {
   ipv6_private_instance_hostnames_enabled  = false
   ipv6_public_instance_hostnames_enabled   = false
   map_public_ip_on_launch                  = true
-  max_nats                                 = 1
+  max_nats                                 = 0
   max_subnet_count                         = 0 // 0 means create 1 for each AZ
   metadata_http_endpoint_enabled           = false
   metadata_http_put_response_hop_limit     = 1
   metadata_http_tokens_required            = true
   nat_elastic_ips                          = []
-  nat_gateway_enabled                      = true
+  nat_gateway_enabled                      = false
   nat_instance_ami_id                      = []
   nat_instance_cpu_credits_override        = ""
   nat_instance_root_block_device_encrypted = true

@@ -39,10 +39,10 @@ module "ecs_service" {
 
   container_definition_json = module.container_definition.json_map_encoded_list
   ecs_cluster_arn           = module.ecs_cluster.arn
-
+  assign_public_ip          = true
   # Network configuration
   vpc_id             = module.vpc.vpc_id
-  subnet_ids         = module.vpc_subnets.private_subnet_ids
+  subnet_ids         = module.vpc_subnets.public_subnet_ids
   security_group_ids = [module.alb.security_group_id]
 
   # Task settings
