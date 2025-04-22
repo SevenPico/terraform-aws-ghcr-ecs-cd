@@ -78,7 +78,7 @@ module "alb" {
   https_enabled             = false
   https_port                = 443
   https_ingress_cidr_blocks = ["10.0.0.0/16"] # Using default VPC CIDR
-  certificate_arn           = module.ssl_certificate.acm_certificate_arn
+  certificate_arn           = ""
 
   access_logs_enabled      = false
   access_logs_prefix       = null

@@ -78,11 +78,6 @@ output "domain_name" {
   value       = module.context.domain_name
 }
 
-output "alias_record_name" {
-  description = "The A record alias name"
-  value       = try(aws_route53_record.alias[0].name, null)
-}
-
 # ALB Outputs
 output "alb_dns_name" {
   description = "DNS name of the ALB"
@@ -92,10 +87,4 @@ output "alb_dns_name" {
 output "alb_zone_id" {
   description = "Zone ID of the ALB"
   value       = module.alb.alb_zone_id
-}
-
-# SSL Certificate Outputs
-output "certificate_arn" {
-  description = "ARN of the SSL certificate"
-  value       = module.ssl_certificate.acm_certificate_arn
 }
