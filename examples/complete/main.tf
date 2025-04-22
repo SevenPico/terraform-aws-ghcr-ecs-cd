@@ -5,7 +5,7 @@ module "ecs_cluster" {
   version = "0.9.0"
   context = module.context.legacy
 
-  container_insights_enabled = true
+  container_insights_enabled = false
 }
 
 # Container definition
@@ -26,11 +26,65 @@ module "container_definition" {
       protocol      = "tcp"
     }
   ]
+  log_configuration = {
+    logDriver = "awslogs"
+    options = {
+      "awslogs-group"         = "/aws/${module.ecs_cluster.id}/service"
+      "awslogs-region"        = "us-east-1"
+      "awslogs-stream-prefix" = "chat"
+    }
+    secretOptions = []
+  }
 
   repository_credentials = {
     credentialsParameter = module.ghcr_ecs_cd.github_credentials_secret_arn
   }
 }
+
+data "aws_iam_policy_document" "ecs_policy" {
+  count = module.context.enabled ? 1 : 0
+
+  # Secrets Manager access for Chat service
+  statement {
+    sid    = "ChatSecretsManagerAccess"
+    effect = "Allow"
+    actions = [
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret"
+    ]
+    resources = [
+      module.ghcr_ecs_cd.github_credentials_secret_arn,
+    ]
+  }
+
+  # CloudWatch Logs access for Chat service
+  statement {
+    sid    = "ChatCloudWatchLogsAccess"
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:DescribeLogStreams"
+    ]
+    resources = [
+      "arn:aws:logs:*:*:log-group:/aws/${module.ecs_cluster.id}/service:*"
+    ]
+  }
+
+  # ECS execution permissions
+  statement {
+    sid    = "ChatECSExecutionAccess"
+    effect = "Allow"
+    actions = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage"
+    ]
+    resources = ["*"]
+  }
+}
+
 
 module "ecs_service" {
   source  = "SevenPicoForks/ecs-alb-service-task/aws"
@@ -61,6 +115,8 @@ module "ecs_service" {
       elb_name         = null
     }
   }
+  task_policy_documents        = data.aws_iam_policy_document.ecs_policy.*.json
+  task_exec_policy_documents   = data.aws_iam_policy_document.ecs_policy.*.json
 }
 
 # Application Load Balancer
