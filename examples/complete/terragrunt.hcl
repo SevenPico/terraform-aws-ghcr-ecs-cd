@@ -1,17 +1,17 @@
 locals {
-  account_id  = get_aws_account_id()
-  tenant      = "Brim"
+  account_id = get_aws_account_id()
+  tenant     = "Brim"
 
-  region = get_env("AWS_REGION")
+  region      = get_env("AWS_REGION")
   root_domain = "modules.thebrim.io"
 
   namespace   = "brim"
-  project     = "ghcr-ecs-cd" 
+  project     = "ghcr-ecs-cd"
   environment = ""
   stage       = basename(get_terragrunt_dir()) //
   domain_name = "${local.stage}.${local.project}.${local.root_domain}"
 
-  tags = { Source = "Managed by Terraform" }
+  tags                = { Source = "Managed by Terraform" }
   regex_replace_chars = "/[^-a-zA-Z0-9]/"
   delimiter           = "-"
   replacement         = ""
@@ -19,7 +19,7 @@ locals {
   id_hash_length      = 5
   label_key_case      = "title"
   label_value_case    = "lower"
-  label_order         =  ["namespace", "project", "environment", "stage", "name", "attributes"]
+  label_order         = ["namespace", "project", "environment", "stage", "name", "attributes"]
   dns_name_format     = "{name}.{domain_name}"
 }
 
@@ -48,28 +48,30 @@ inputs = {
   # Module / Example Specific
   vpc_cidr_block     = "10.10.0.0/16"
   availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
-  
+
   # GitHub Configuration
-  github_org        = "example-org"
-  github_repo       = "example-repo"
+  github_org        = "adarshiwralesigmasolve07"
+  github_token      = "changethisshit"
+  github_username   = "ai"
+  github_repo       = "nginx"
   initial_image_tag = "latest"
-  
+
   # Route53 Configuration
-  route53_zone_id   = "Z1234567890ABCDEFGHIJ"
-  
+  route53_zone_id = "Z1234567890ABCDEFGHIJ"
+
   # SSL Certificate Configuration
   kms_key_deletion_window_in_days = 30
   kms_key_enable_key_rotation     = true
-  
+
   # Alarm Configuration
   alarm_actions = []
   ok_actions    = []
 }
 
 remote_state {
-  backend = "s3"
+  backend      = "s3"
   disable_init = false
-  config  = {
+  config = {
     bucket                = "brim-sandbox-tfstate"
     disable_bucket_update = true
     dynamodb_table        = "brim-sandbox-tfstate-lock"
@@ -99,11 +101,19 @@ generate "providers" {
       archive = {
         source  = "hashicorp/archive"
       }
+      acme = {
+      source = "vancluever/acme"
+      #      version = "~> 2.10.0"
+      }
     }
   }
 
   provider "aws" {
     region  = "${local.region}"
   }
+
+  provider "acme" {
+  server_url = "https://acme-v02.api.letsencrypt.org/directory"
+}
   EOF
 }

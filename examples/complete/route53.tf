@@ -1,9 +1,15 @@
 # ------------------------------------------------------------------------------
 # A Alias Record
 # ------------------------------------------------------------------------------
+data "aws_route53_zone" "root" {
+  count = module.context.enabled ? 1 : 0
+  name  = var.root_domain
+
+}
+
 resource "aws_route53_record" "alias" {
   count   = module.context.enabled ? 1 : 0
-  zone_id = var.route53_zone_id
+  zone_id = join("", data.aws_route53_zone.root[*].id)
   name    = module.context.domain_name
   type    = "A"
 

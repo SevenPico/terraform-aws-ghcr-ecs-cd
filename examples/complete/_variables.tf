@@ -75,3 +75,7 @@ variable "ok_actions" {
   description = "List of ARNs to notify when the alarm transitions to OK state"
   default     = []
 }
+
+variable "root_domain" {
+  type = string
+}
