@@ -57,7 +57,7 @@ inputs = {
   initial_image_tag = "latest"
 
   # Route53 Configuration
-  route53_zone_id = "Z1234567890ABCDEFGHIJ"
+  route53_zone_id = "Z02576847M4LS5OKUO5G"
 
   # SSL Certificate Configuration
   kms_key_deletion_window_in_days = 30

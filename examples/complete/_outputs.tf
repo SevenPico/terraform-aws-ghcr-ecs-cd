@@ -29,6 +29,7 @@ output "ecs_service_name" {
 output "ssm_parameters" {
   description = "SSM Parameter resources created by the module"
   value       = module.ghcr_ecs_cd.parameters
+  sensitive   = true
 }
 
 output "lambda_function_arn" {
