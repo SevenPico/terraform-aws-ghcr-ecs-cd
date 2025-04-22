@@ -91,7 +91,7 @@ generate "providers" {
     required_providers {
       aws = {
         source  = "hashicorp/aws"
-        version = "~> 4"
+        version = ">= 5.16.0"
       }
       local = {
         source  = "hashicorp/local"
