@@ -29,7 +29,7 @@ module "container_definition" {
   log_configuration = {
     logDriver = "awslogs"
     options = {
-      "awslogs-group"         = "/aws/${module.ecs_cluster.id}/service"
+      "awslogs-group"         = "/aws/ecs/service"
       "awslogs-region"        = "us-east-1"
       "awslogs-stream-prefix" = "chat"
     }
@@ -67,7 +67,7 @@ data "aws_iam_policy_document" "ecs_policy" {
       "logs:DescribeLogStreams"
     ]
     resources = [
-      "arn:aws:logs:*:*:log-group:/aws/${module.ecs_cluster.id}/service:*"
+      "arn:aws:logs:*:*:log-group:/aws/ecs/service:*"
     ]
   }
 
