@@ -126,7 +126,7 @@ module "alb" {
   context = module.context.self
 
   vpc_id             = module.vpc.vpc_id
-  subnet_ids         = module.vpc_subnets.private_subnet_ids
+  subnet_ids         = module.vpc_subnets.public_subnet_ids
   security_group_ids = []
 
   internal                  = false
