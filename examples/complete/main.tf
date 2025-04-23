@@ -129,7 +129,7 @@ module "alb" {
   subnet_ids         = module.vpc_subnets.private_subnet_ids
   security_group_ids = []
 
-  internal                  = true
+  internal                  = false
   http_enabled              = true
   https_enabled             = false
   https_port                = 443
