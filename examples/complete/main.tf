@@ -14,7 +14,7 @@ module "container_definition" {
   version = "0.61.2"
 
   container_name  = "nginx"
-  container_image = "ghcr.io/${var.github_org}/${var.github_repo}:${var.initial_image_tag}}"
+  container_image = "ghcr.io/${var.github_org}/${var.github_repo}:${var.initial_image_tag}"
 
   container_cpu    = 256
   container_memory = 512
@@ -115,8 +115,8 @@ module "ecs_service" {
       elb_name         = null
     }
   }
-  task_policy_documents        = data.aws_iam_policy_document.ecs_policy.*.json
-  task_exec_policy_documents   = data.aws_iam_policy_document.ecs_policy.*.json
+  task_policy_documents      = data.aws_iam_policy_document.ecs_policy.*.json
+  task_exec_policy_documents = data.aws_iam_policy_document.ecs_policy.*.json
 }
 
 # Application Load Balancer
