@@ -14,7 +14,7 @@ module "container_definition" {
   version = "0.61.2"
 
   container_name  = "nginx"
-  container_image = "nginx:latest"
+  container_image = "ghcr.io/${var.github_org}/${var.github_repo}:${var.initial_image_tag}}"
 
   container_cpu    = 256
   container_memory = 512

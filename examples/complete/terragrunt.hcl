@@ -53,7 +53,7 @@ inputs = {
   github_org        = "adarshiwralesigmasolve07"
   github_token      = "changethisshit"
   github_username   = "ai"
-  github_repo       = "nginx"
+  github_repo       = "docker-testing-ghcr"
   initial_image_tag = "latest"
 
   # Route53 Configuration
